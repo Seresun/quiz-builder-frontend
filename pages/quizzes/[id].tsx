@@ -23,6 +23,10 @@ type QuizDetailsPageProps = {
 export default function QuizDetailsPage({
   quiz,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const questions: Question[] = Array.isArray(quiz?.questions)
+    ? (quiz?.questions as Question[])
+    : [];
+
   return (
     <main className="mx-auto max-w-3xl px-4 py-8">
       <Link
@@ -39,13 +43,13 @@ export default function QuizDetailsPage({
               {quiz.title}
             </h1>
             <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-              {quiz.questions.length} question
-              {quiz.questions.length === 1 ? '' : 's'}
+              {questions.length} question
+              {questions.length === 1 ? '' : 's'}
             </p>
           </header>
 
           <section className="space-y-4">
-            {quiz.questions.map((question, index) => (
+            {questions.map((question, index) => (
               <div
                 key={question.id ?? `${quiz.id}-${index}`}
                 className="space-y-3 rounded-lg border border-gray-200 p-5 shadow-sm dark:border-gray-700 dark:bg-gray-900"
